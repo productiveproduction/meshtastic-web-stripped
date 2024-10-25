@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export const BLE = ({ closeDialog }: TabElementProps): JSX.Element => {
   const [bleDevices, setBleDevices] = useState<BluetoothDevice[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const { addDevice } = useDeviceStore();
   const { setSelectedDevice } = useAppStore();
 
@@ -22,6 +23,7 @@ export const BLE = ({ closeDialog }: TabElementProps): JSX.Element => {
   }, [updateBleDeviceList]);
 
   const onConnect = async (bleDevice: BluetoothDevice) => {
+    setLoading(true);
     const id = randId();
     const device = addDevice(id);
     setSelectedDevice(id);
@@ -33,6 +35,7 @@ export const BLE = ({ closeDialog }: TabElementProps): JSX.Element => {
     subscribeAll(device, connection);
 
     closeDialog();
+    setLoading(false);
   };
 
   return (
@@ -68,6 +71,7 @@ export const BLE = ({ closeDialog }: TabElementProps): JSX.Element => {
       >
         <span>New device</span>
       </Button>
+      {loading && <div>Loading...</div>}
     </div>
   );
 };
