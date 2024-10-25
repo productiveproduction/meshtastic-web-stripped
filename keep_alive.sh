@@ -1,0 +1,1 @@
+start_time=$(date +%s); while true; do current_time=$(date +%s); echo "$(TZ='Asia/Singapore' date): Elapsed time: $((current_time - start_time)) seconds" >> keep_alive.txt; sleep 30; if [ $((current_time % 3600)) -lt 30 ]; then > keep_alive.txt; fi; done
