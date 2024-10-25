@@ -24,48 +24,60 @@ export const ChannelChat = ({
 }: ChannelChatProps): JSX.Element => {
   const { nodes } = useDevice();
 
+  const renderMessages = () => {
+    if (!messages) {
+      return (
+        <div className="m-auto">
+          <InboxIcon className="m-auto" />
+          <Subtle>No Messages</Subtle>
+        </div>
+      );
+    }
+
+    return messages.map((message, index) => (
+      <Message
+        key={message.id}
+        message={message}
+        lastMsgSameUser={
+          index === 0
+            ? false
+            : messages[index - 1].from === message.from
+        }
+        sender={nodes.get(message.from)}
+      />
+    ));
+  };
+
+  const renderTraceroutes = () => {
+    if (to === "broadcast" || !traceroutes) {
+      return (
+        <div className="m-auto">
+          <InboxIcon className="m-auto" />
+          <Subtle>No Traceroutes</Subtle>
+        </div>
+      );
+    }
+
+    return traceroutes.map((traceroute, index) => (
+      <TraceRoute
+        key={traceroute.id}
+        from={nodes.get(traceroute.from)}
+        to={nodes.get(traceroute.to)}
+        route={traceroute.data.route}
+      />
+    ));
+  };
+
   return (
     <div className="flex flex-grow flex-col">
       <div className="flex flex-grow">
         <div className="flex flex-grow flex-col">
-          {messages ? (
-            messages.map((message, index) => (
-              <Message
-                key={message.id}
-                message={message}
-                lastMsgSameUser={
-                  index === 0
-                    ? false
-                    : messages[index - 1].from === message.from
-                }
-                sender={nodes.get(message.from)}
-              />
-            ))
-          ) : (
-            <div className="m-auto">
-              <InboxIcon className="m-auto" />
-              <Subtle>No Messages</Subtle>
-            </div>
-          )}
+          {renderMessages()}
         </div>
         <div
           className={`flex flex-grow flex-col border-slate-400 border-l ${traceroutes === undefined ? "hidden" : ""}`}
         >
-          {to === "broadcast" ? null : traceroutes ? (
-            traceroutes.map((traceroute, index) => (
-              <TraceRoute
-                key={traceroute.id}
-                from={nodes.get(traceroute.from)}
-                to={nodes.get(traceroute.to)}
-                route={traceroute.data.route}
-              />
-            ))
-          ) : (
-            <div className="m-auto">
-              <InboxIcon className="m-auto" />
-              <Subtle>No Traceroutes</Subtle>
-            </div>
-          )}
+          {renderTraceroutes()}
         </div>
       </div>
       <div className="pl-3 pr-3 pt-3 pb-1">
