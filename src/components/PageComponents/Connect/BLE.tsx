@@ -15,7 +15,11 @@ export const BLE = ({ closeDialog }: TabElementProps): JSX.Element => {
   const { setSelectedDevice } = useAppStore();
 
   const updateBleDeviceList = useCallback(async (): Promise<void> => {
-    setBleDevices(await navigator.bluetooth.getDevices());
+    if (navigator.bluetooth && typeof navigator.bluetooth.getDevices === 'function') {
+      setBleDevices(await navigator.bluetooth.getDevices());
+    } else {
+      console.error('Web Bluetooth API is not available');
+    }
   }, []);
 
   useEffect(() => {
@@ -57,16 +61,20 @@ export const BLE = ({ closeDialog }: TabElementProps): JSX.Element => {
       </div>
       <Button
         onClick={async () => {
-          await navigator.bluetooth
-            .requestDevice({
-              filters: [{ services: [Constants.ServiceUuid] }],
-            })
-            .then((device) => {
-              const exists = bleDevices.findIndex((d) => d.id === device.id);
-              if (exists === -1) {
-                setBleDevices(bleDevices.concat(device));
-              }
-            });
+          if (navigator.bluetooth) {
+            await navigator.bluetooth
+              .requestDevice({
+                filters: [{ services: [Constants.ServiceUuid] }],
+              })
+              .then((device) => {
+                const exists = bleDevices.findIndex((d) => d.id === device.id);
+                if (exists === -1) {
+                  setBleDevices(bleDevices.concat(device));
+                }
+              });
+          } else {
+            console.error('Web Bluetooth API is not available');
+          }
         }}
       >
         <span>New device</span>
