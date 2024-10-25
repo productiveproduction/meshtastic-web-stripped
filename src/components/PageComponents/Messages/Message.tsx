@@ -18,15 +18,19 @@ export const Message = ({
   message,
   sender,
 }: MessageProps): JSX.Element => {
-  return lastMsgSameUser ? (
-    <div className="ml-5 flex">
-      {message.state === "ack" ? (
-        <CheckCircle2Icon size={16} className="my-auto text-textSecondary" />
-      ) : message.state === "waiting" ? (
-        <CircleEllipsisIcon size={16} className="my-auto text-textSecondary" />
-      ) : (
-        <AlertCircleIcon size={16} className="my-auto text-textSecondary" />
-      )}
+  const renderIcon = () => {
+    switch (message.state) {
+      case "ack":
+        return <CheckCircle2Icon size={16} className="my-auto text-textSecondary" />;
+      case "waiting":
+        return <CircleEllipsisIcon size={16} className="my-auto text-textSecondary" />;
+      default:
+        return <AlertCircleIcon size={16} className="my-auto text-textSecondary" />;
+    }
+  };
+
+  const renderMessageContent = () => {
+    return (
       <span
         className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${
           message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
@@ -34,6 +38,13 @@ export const Message = ({
       >
         {message.data}
       </span>
+    );
+  };
+
+  return lastMsgSameUser ? (
+    <div className="ml-5 flex">
+      {renderIcon()}
+      {renderMessageContent()}
     </div>
   ) : (
     <div className="mx-4 mt-2 gap-2">
@@ -52,23 +63,8 @@ export const Message = ({
         </span>
       </div>
       <div className="ml-1 flex">
-        {message.state === "ack" ? (
-          <CheckCircle2Icon size={16} className="my-auto text-textSecondary" />
-        ) : message.state === "waiting" ? (
-          <CircleEllipsisIcon
-            size={16}
-            className="my-auto text-textSecondary"
-          />
-        ) : (
-          <AlertCircleIcon size={16} className="my-auto text-textSecondary" />
-        )}
-        <span
-          className={`ml-4 border-l-2 border-l-backgroundPrimary pl-2 ${
-            message.state === "ack" ? "text-textPrimary" : "text-textSecondary"
-          }`}
-        >
-          {message.data}
-        </span>
+        {renderIcon()}
+        {renderMessageContent()}
       </div>
     </div>
   );
