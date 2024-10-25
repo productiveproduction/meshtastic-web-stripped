@@ -1,9 +1,9 @@
 import { useDevice } from "@core/stores/deviceStore.js";
-import { ChannelsPage } from "@pages/Channels.js";
-import { ConfigPage } from "@pages/Config/index.js";
-import { MapPage } from "@pages/Map.js";
-import { MessagesPage } from "@pages/Messages.js";
-import { NodesPage } from "@pages/Nodes.js";
+import { ChannelsPage } from "@pagesOLD/Channels.js";
+import { ConfigPage } from "@pagesOLD/Config/index.js";
+import { MapPage } from "@pagesOLD/Map.js";
+import { MessagesPage } from "@pagesOLD/Messages.js";
+import { NodesPage } from "@pagesOLD/Nodes.js";
 
 export const PageRouter = (): JSX.Element => {
   const { activePage } = useDevice();
