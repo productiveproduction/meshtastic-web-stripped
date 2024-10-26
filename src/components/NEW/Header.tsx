@@ -3,17 +3,20 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MoveLeft } from 'lucide-react';
 import { Button } from '@componentsNEW/Button';
 import { pagesRoutes } from '@core/utils/routes';
-import { useDeviceStore } from '@app/core/stores/deviceStore';
 import { useAppStore } from '@app/core/stores/appStore';
+import { useDeviceStore } from '@app/core/stores/deviceStore';
 
 export default function Header() {
-  const { selectedDeviceName } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   const isRouteInPagesRoutes = pagesRoutes.some((route) =>
     location.pathname.startsWith(route.path)
   );
+
+  const { getDevice } = useDeviceStore();
+  const { selectedDevice } = useAppStore();
+  const device = getDevice(selectedDevice);
 
   return (
     <Container>
@@ -26,7 +29,9 @@ export default function Header() {
               size="small"
               onClick={() => navigate('/connect')}
             >
-              {selectedDeviceName}
+              {device?.nodes?.get(device?.hardware!.myNodeNum)?.user?.longName 
+                ?? "not connected"
+              }
             </Button>
         }
         <LogoTitle

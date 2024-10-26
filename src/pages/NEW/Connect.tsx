@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Plus } from 'lucide-react';
 import { Button } from '@componentsNEW/Button';
@@ -11,11 +11,17 @@ import { randId } from "@core/utils/randId.js";
 import { BleConnection, Constants } from "@meshtastic/js";
 import Loading from '@app/components/NEW/Loading';
 
+import {
+  BatteryMediumIcon,
+  CpuIcon,
+  EditIcon,
+  ZapIcon,
+} from "lucide-react";
+
 export default function Connect() {
-  // const [bleDevice, setBleDevice] = useState<BluetoothDevice>();
   const [loading, setLoading] = useState(false);
   const { getDevice, addDevice } = useDeviceStore();
-  const { selectedDevice, setSelectedDevice, selectedDeviceName, setSelectedDeviceName } = useAppStore();
+  const { selectedDevice, setSelectedDevice } = useAppStore();
   const device = getDevice(selectedDevice);
   const navigate = useNavigate();
 
@@ -27,8 +33,6 @@ export default function Connect() {
         })
         .then((device) => {
           setLoading(true);
-          // setBleDevice(device)
-          setSelectedDeviceName(device.name)
           onConnect(device)
         })
     } else {
@@ -48,8 +52,8 @@ export default function Connect() {
     device.addConnection(connection);
     subscribeAll(device, connection);
 
-    setLoading(false); 
-    navigate('/chats'); 
+    setLoading(false);
+    navigate('/');
   };
 
   return (
@@ -63,8 +67,18 @@ export default function Connect() {
             $fetchpriority="high"
             decoding="async"
           />
-          <p>{loading ? 'loading...' : 'meshtastic'}</p>
-          <p>{selectedDeviceName}</p> 
+          {!device && <p>meshtastic</p>}
+          <p>
+            {device?.nodes?.get(device?.hardware!.myNodeNum)?.user?.longName ?? "not connected"} 
+            &nbsp;
+
+            {device && <EditIcon size={14} 
+              onClick={() => {
+                // setDialogOpen("deviceName", true)
+              }}
+            />}
+          </p>
+          {device && <DeviceInfo device={device}/>}
           {loading && <Loading/>}
         </CardContent>
       </CardContainer>
@@ -88,6 +102,30 @@ export default function Connect() {
     </Container>
   );
 };
+
+const DeviceInfo: React.FC<{ device: any }> = ({ device }) => {
+  const hardware = device?.hardware;
+  const nodes = device?.nodes;
+  const metadata = device?.metadata;
+  const myNode = nodes?.get(hardware!.myNodeNum);
+  const myMetadata = metadata?.get(0);
+
+  return (
+    <>
+      <p>
+        <BatteryMediumIcon size={24} viewBox={"0 0 28 14"} /> 
+        {myNode?.deviceMetrics?.batteryLevel ?? "UNK"}%
+        <ZapIcon size={24} viewBox={"-10 0 36 8"} />
+        {myNode?.deviceMetrics?.voltage?.toPrecision(3) ?? "UNK"} volts
+      </p>
+      <p>
+        <CpuIcon size={24} viewBox={"0 0 36 8"} />
+        <span/>
+        v{myMetadata?.firmwareVersion ?? "UNK"}
+      </p>
+    </>
+  )
+}
 
 const Container = styled.div`
   display: flex;
@@ -204,10 +242,10 @@ const CardContent = styled.div`
   }
 
   p:nth-child(2) {
-    margin-bottom: 50%;
+    margin-bottom: -5%;
   }
   p:nth-child(3) {
-    margin-top: 20%;
+    margin-top: 65%;
   }
 `;
 

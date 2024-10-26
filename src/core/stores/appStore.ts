@@ -3,7 +3,6 @@ import { create } from "zustand";
 
 interface AppState {
   selectedDevice: number;
-  selectedDeviceName: string | undefined;
   devices: {
     id: number;
     num: number;
@@ -15,7 +14,6 @@ interface AppState {
   activeTabIndex: number,
 
   setSelectedDevice: (deviceId: number) => void;
-  setSelectedDeviceName: (deviceName: string | undefined) => void;
   addDevice: (device: { id: number; num: number }) => void;
   removeDevice: (deviceId: number) => void;
   setCommandPaletteOpen: (open: boolean) => void;
@@ -27,7 +25,6 @@ interface AppState {
 
 export const useAppStore = create<AppState>()((set) => ({
   selectedDevice: 0,
-  selectedDeviceName: "not connected",
   devices: [],
   currentPage: "messages",
   commandPaletteOpen: false,
@@ -42,10 +39,6 @@ export const useAppStore = create<AppState>()((set) => ({
   setSelectedDevice: (deviceId) =>
     set(() => ({
       selectedDevice: deviceId,
-    })),
-  setSelectedDeviceName: (deviceName) =>
-    set(() => ({
-      selectedDeviceName: deviceName,
     })),
   addDevice: (device) =>
     set((state) => ({
