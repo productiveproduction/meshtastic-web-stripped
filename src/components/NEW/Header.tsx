@@ -10,6 +10,13 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isMemoriesRoute = location.pathname.startsWith('/memories')
+  const isConnectRoute = location.pathname.startsWith('/connect')
+  
+  const isRightSectionRoutes = ['/memories', '/profile'].some((route) =>
+    location.pathname.startsWith(route)
+  );
+
   const isRouteInPagesRoutes = pagesRoutes.some((route) =>
     location.pathname.startsWith(route.path)
   );
@@ -43,16 +50,27 @@ export default function Header() {
           src="/LYF-LOGO.jpg"
           style={{display: isRouteInPagesRoutes ? 'none' : 'block'}}
         />
-        <RightSection>
+        <RightSection style={{ display: isRouteInPagesRoutes ? 'none': 'flex' }}>
           <Button
             $variant="primary"
             size="small"
-            onClick={() => navigate('/invite')}
+            onClick={() => navigate('/memories')}
           >
-            Invite
+            memories
           </Button>
-          <HeaderAvatar/>
         </RightSection>
+
+        { isConnectRoute &&
+          <RightSection><HeaderAvatar/></RightSection>
+        }
+        
+        { isMemoriesRoute &&
+          <RightSection>
+            <Button $variant="outline" size="small">
+              share lyf moment
+            </Button>
+          </RightSection>
+        }
       </HeaderContainer>
     </Container>
   );

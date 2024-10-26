@@ -88,7 +88,7 @@ export default function Connect() {
           size="small"
           onClick={pairDevice}
         >
-          <><Plus size={16} /> <span /> New Connection</>
+          <><Plus size={16} /> <span /> new connection</>
         </ConnectionButton>
       )}
 

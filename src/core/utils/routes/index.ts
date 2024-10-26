@@ -5,38 +5,32 @@ export const tablistRoutes = [
   {
     component: asyncComponentLoader(() => import('@pagesNEW/tabs/Channels')),
     path: '/',
-    title: 'Channels',
+    title: 'channels',
     icon: Users
   },
   {
     component: asyncComponentLoader(() => import('@pagesNEW/tabs/Chats')),
     path: '/chats',
-    title: 'Chats',
+    title: 'chats',
     icon: MessageCircle
   },
-  {
-    component: asyncComponentLoader(() => import('@pagesNEW/tabs/Rewards')),
-    path: '/rewards',
-    title: 'Rewards',
-    icon: Star
-  }
 ];
 
 export const pagesRoutes = [
   {
     component: asyncComponentLoader(() => import('@pagesNEW/Connect')),
     path: '/connect',
-    title: 'Connect'
+    title: 'connect'
   },
   {
     component: asyncComponentLoader(() => import('@pagesNEW/Profile')),
     path: '/profile',
-    title: 'Profile'
+    title: 'profile'
   },
   {
-    component: asyncComponentLoader(() => import('@pagesNEW/Invite')),
-    path: '/invite',
-    title: 'Connect'
+    component: asyncComponentLoader(() => import('@pagesNEW/Memories')),
+    path: '/memories',
+    title: 'memories'
   },
   // ["NotFound"]: {
   //   component: asyncComponentLoader(() => import('@pagesNEW/NotFound')),
