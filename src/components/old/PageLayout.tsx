@@ -1,6 +1,5 @@
 import { cn } from "@app/core/utils/cn.js";
 import { AlignLeftIcon, type LucideIcon } from "lucide-react";
-import Footer from "./UI/Footer";
 
 export interface PageLayoutProps {
   label: string;
@@ -54,7 +53,6 @@ export const PageLayout = ({
           )}
         >
           {children}
-          <Footer />
         </div>
       </div>
     </>

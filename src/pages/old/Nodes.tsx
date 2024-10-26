@@ -1,4 +1,3 @@
-import Footer from "@componentsOLD/UI/Footer";
 import { useAppStore } from "@app/core/stores/appStore";
 import { Sidebar } from "@componentsOLD/Sidebar.js";
 import { Button } from "@componentsOLD/UI/Button.js";
@@ -106,7 +105,6 @@ export const NodesPage = (): JSX.Element => {
             ])}
           />
         </div>
-        <Footer />
       </div>
     </>
   );
