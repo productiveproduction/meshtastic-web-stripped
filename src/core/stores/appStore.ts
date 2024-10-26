@@ -1,13 +1,6 @@
 import { produce } from "immer";
 import { create } from "zustand";
 
-export interface RasterSource {
-  enabled: boolean;
-  title: string;
-  tiles: string;
-  tileSize: number;
-}
-
 export type AccentColor =
   | "red"
   | "orange"
@@ -23,16 +16,11 @@ interface AppState {
     id: number;
     num: number;
   }[];
-  rasterSources: RasterSource[];
   commandPaletteOpen: boolean;
   darkMode: boolean;
   nodeNumToBeRemoved: number;
   accent: AccentColor;
   connectDialogOpen: boolean;
-
-  setRasterSources: (sources: RasterSource[]) => void;
-  addRasterSource: (source: RasterSource) => void;
-  removeRasterSource: (index: number) => void;
 
   setSelectedDevice: (deviceId: number) => void;
   addDevice: (device: { id: number; num: number }) => void;
@@ -48,7 +36,6 @@ export const useAppStore = create<AppState>()((set) => ({
   selectedDevice: 0,
   devices: [],
   currentPage: "messages",
-  rasterSources: [],
   commandPaletteOpen: false,
   darkMode:
     localStorage.getItem("theme-dark") !== null
@@ -58,27 +45,6 @@ export const useAppStore = create<AppState>()((set) => ({
   connectDialogOpen: false,
   nodeNumToBeRemoved: 0,
 
-  setRasterSources: (sources: RasterSource[]) => {
-    set(
-      produce<AppState>((draft) => {
-        draft.rasterSources = sources;
-      }),
-    );
-  },
-  addRasterSource: (source: RasterSource) => {
-    set(
-      produce<AppState>((draft) => {
-        draft.rasterSources.push(source);
-      }),
-    );
-  },
-  removeRasterSource: (index: number) => {
-    set(
-      produce<AppState>((draft) => {
-        draft.rasterSources.splice(index, 1);
-      }),
-    );
-  },
   setSelectedDevice: (deviceId) =>
     set(() => ({
       selectedDevice: deviceId,

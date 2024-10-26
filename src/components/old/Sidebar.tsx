@@ -39,11 +39,6 @@ export const Sidebar = ({ children }: SidebarProps): JSX.Element => {
       page: "messages",
     },
     {
-      name: "Map",
-      icon: MapIcon,
-      page: "map",
-    },
-    {
       name: "Config",
       icon: SettingsIcon,
       page: "config",

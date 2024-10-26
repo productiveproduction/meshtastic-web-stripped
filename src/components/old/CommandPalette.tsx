@@ -82,13 +82,6 @@ export const CommandPalette = (): JSX.Element => {
           },
         },
         {
-          label: "Map",
-          icon: MapIcon,
-          action() {
-            setActivePage("map");
-          },
-        },
-        {
           label: "Config",
           icon: SettingsIcon,
           action() {
