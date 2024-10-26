@@ -11,6 +11,7 @@ interface AppState {
   darkMode: boolean;
   nodeNumToBeRemoved: number;
   connectDialogOpen: boolean;
+  activeTabIndex: number,
 
   setSelectedDevice: (deviceId: number) => void;
   addDevice: (device: { id: number; num: number }) => void;
@@ -19,6 +20,7 @@ interface AppState {
   setDarkMode: (enabled: boolean) => void;
   setNodeNumToBeRemoved: (nodeNum: number) => void;
   setConnectDialogOpen: (open: boolean) => void;
+  setActiveTabIndex: (index: number) => void,
 }
 
 export const useAppStore = create<AppState>()((set) => ({
@@ -32,6 +34,7 @@ export const useAppStore = create<AppState>()((set) => ({
       : window.matchMedia("(prefers-color-scheme: dark)").matches,
   connectDialogOpen: false,
   nodeNumToBeRemoved: 0,
+  activeTabIndex: 0,
 
   setSelectedDevice: (deviceId) =>
     set(() => ({
@@ -68,6 +71,13 @@ export const useAppStore = create<AppState>()((set) => ({
     set(
       produce<AppState>((draft) => {
         draft.connectDialogOpen = open;
+      }),
+    );
+  },
+  setActiveTabIndex: (index: number) => {
+    set(
+      produce<AppState>((draft) => {
+        draft.activeTabIndex = index;
       }),
     );
   },
