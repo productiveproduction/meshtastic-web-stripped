@@ -3,8 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MoveLeft } from 'lucide-react';
 import { Button } from '@componentsNEW/Button';
 import { pagesRoutes } from '@core/utils/routes';
+import { useDeviceStore } from '@app/core/stores/deviceStore';
+import { useAppStore } from '@app/core/stores/appStore';
 
 export default function Header() {
+  const { selectedDeviceName } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,7 +26,7 @@ export default function Header() {
               size="small"
               onClick={() => navigate('/connect')}
             >
-              not connected
+              {selectedDeviceName}
             </Button>
         }
         <LogoTitle

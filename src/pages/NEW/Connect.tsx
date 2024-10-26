@@ -1,9 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Plus } from 'lucide-react';
 import { Button } from '@componentsNEW/Button';
+import { useNavigate } from 'react-router-dom';
+
+import { useAppStore } from "@core/stores/appStore.js";
+import { useDeviceStore } from "@core/stores/deviceStore.js";
+import { subscribeAll } from "@core/subscriptions.js";
+import { randId } from "@core/utils/randId.js";
+import { BleConnection, Constants } from "@meshtastic/js";
+import Loading from '@app/components/NEW/Loading';
 
 export default function Connect() {
+  // const [bleDevice, setBleDevice] = useState<BluetoothDevice>();
+  const [loading, setLoading] = useState(false);
+  const { getDevice, addDevice } = useDeviceStore();
+  const { selectedDevice, setSelectedDevice, selectedDeviceName, setSelectedDeviceName } = useAppStore();
+  const device = getDevice(selectedDevice);
+  const navigate = useNavigate();
+
+  const pairDevice = async () => {
+    if (navigator.bluetooth) {
+      await navigator.bluetooth
+        .requestDevice({
+          filters: [{ services: [Constants.ServiceUuid] }],
+        })
+        .then((device) => {
+          setLoading(true);
+          // setBleDevice(device)
+          setSelectedDeviceName(device.name)
+          onConnect(device)
+        })
+    } else {
+      console.error("Web Bluetooth API is not available");
+    }
+  };
+
+  const onConnect = async (bleDevice: BluetoothDevice) => {
+    const id = randId();
+    const device = addDevice(id);
+    setSelectedDevice(id);
+
+    const connection = new BleConnection(id);
+    await connection.connect({
+      device: bleDevice,
+    });
+    device.addConnection(connection);
+    subscribeAll(device, connection);
+
+    setLoading(false); 
+    navigate('/chats'); 
+  };
+
   return (
     <Container>
       <CardContainer>
@@ -15,16 +63,28 @@ export default function Connect() {
             $fetchpriority="high"
             decoding="async"
           />
-          <p>meshtastic</p>
-          <p>not connected</p>
+          <p>{loading ? 'loading...' : 'meshtastic'}</p>
+          <p>{selectedDeviceName}</p> 
+          {loading && <Loading/>}
         </CardContent>
       </CardContainer>
-      <ConnectionButton
-        $variant="primary"
-        size="small"
-      >
-        <Plus /> <span/> New Connection
-      </ConnectionButton>
+      {(!loading && !device) && ( // Device NOT connected and not loading
+        <ConnectionButton
+          $variant="primary"
+          size="small"
+          onClick={pairDevice}
+        >
+          <><Plus size={16} /> <span /> New Connection</>
+        </ConnectionButton>
+      )}
+
+      {/* {(!loading && device) && ( // Device connected and not loading
+        <>
+          <Button variant="secondary" size="small">
+            Unpair
+          </Button>
+        </>
+      )} */}
     </Container>
   );
 };
@@ -139,12 +199,14 @@ const CardContent = styled.div`
   position: absolute;
   background: var(--primary-foreground);
 
-  p:nth-child(2) {
+  & p {
     color: black;
+  }
+
+  p:nth-child(2) {
     margin-bottom: 50%;
   }
   p:nth-child(3) {
-    color: black;
     margin-top: 20%;
   }
 `;
