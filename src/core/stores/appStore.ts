@@ -1,15 +1,6 @@
 import { produce } from "immer";
 import { create } from "zustand";
 
-export type AccentColor =
-  | "red"
-  | "orange"
-  | "yellow"
-  | "green"
-  | "blue"
-  | "purple"
-  | "pink";
-
 interface AppState {
   selectedDevice: number;
   devices: {
@@ -19,7 +10,6 @@ interface AppState {
   commandPaletteOpen: boolean;
   darkMode: boolean;
   nodeNumToBeRemoved: number;
-  accent: AccentColor;
   connectDialogOpen: boolean;
 
   setSelectedDevice: (deviceId: number) => void;
@@ -28,7 +18,6 @@ interface AppState {
   setCommandPaletteOpen: (open: boolean) => void;
   setDarkMode: (enabled: boolean) => void;
   setNodeNumToBeRemoved: (nodeNum: number) => void;
-  setAccent: (color: AccentColor) => void;
   setConnectDialogOpen: (open: boolean) => void;
 }
 
@@ -41,7 +30,6 @@ export const useAppStore = create<AppState>()((set) => ({
     localStorage.getItem("theme-dark") !== null
       ? localStorage.getItem("theme-dark") === "true"
       : window.matchMedia("(prefers-color-scheme: dark)").matches,
-  accent: "orange",
   connectDialogOpen: false,
   nodeNumToBeRemoved: 0,
 
@@ -76,13 +64,6 @@ export const useAppStore = create<AppState>()((set) => ({
     set((state) => ({
       nodeNumToBeRemoved: nodeNum,
     })),
-  setAccent(color) {
-    set(
-      produce<AppState>((draft) => {
-        draft.accent = color;
-      }),
-    );
-  },
   setConnectDialogOpen: (open: boolean) => {
     set(
       produce<AppState>((draft) => {

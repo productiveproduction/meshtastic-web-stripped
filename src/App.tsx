@@ -5,12 +5,12 @@ import { DeviceSelector } from "@componentsOLD/DeviceSelector.js";
 import { DialogManager } from "@componentsOLD/Dialog/DialogManager.js";
 import { NewDeviceDialog } from "@componentsOLD/Dialog/NewDeviceDialog.js";
 import { Toaster } from "@componentsOLD/Toaster.js";
-import { ThemeController } from "@componentsOLD/generic/ThemeController.js";
 import { useAppStore } from "@core/stores/appStore.js";
 import { useDeviceStore } from "@core/stores/deviceStore.js";
 import { Dashboard } from "@pagesOLD/Dashboard/index.js";
 
 export const App = (): JSX.Element => {
+  const { darkMode } = useAppStore();
   const { getDevice } = useDeviceStore();
   const { selectedDevice, setConnectDialogOpen, connectDialogOpen } =
     useAppStore();
@@ -18,7 +18,7 @@ export const App = (): JSX.Element => {
   const device = getDevice(selectedDevice);
 
   return (
-    <ThemeController>
+    <div data-theme={darkMode ? "dark" : "light"} data-accent="orange">
       <NewDeviceDialog
         open={connectDialogOpen}
         onOpenChange={(open) => {
@@ -44,6 +44,6 @@ export const App = (): JSX.Element => {
           </div>
         </div>
       </DeviceWrapper>
-    </ThemeController>
+    </div>
   );
 };
