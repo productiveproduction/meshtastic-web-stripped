@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Check } from 'lucide-react'
-import { Button } from '@app/components/NEW/Button'
+import { Button } from '@components/Button'
 
 
 const communities = [

@@ -1,4 +1,4 @@
-import Loading from '@componentsNEW/Loading';
+import Loading from '@components/Loading';
 
 import asyncComponentLoader from './loader';
 import type { AnyProps, LoadComponent, LoaderDefaultOptions } from './types';

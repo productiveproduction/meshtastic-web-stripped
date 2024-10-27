@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MoveLeft } from 'lucide-react';
-import { Button } from '@componentsNEW/Button';
+import { Button } from '@components/Button';
 import { pagesRoutes } from '@core/utils/routes';
 import { useAppStore } from '@app/core/stores/appStore';
 import { useDeviceStore } from '@app/core/stores/deviceStore';

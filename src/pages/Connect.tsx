@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Plus } from 'lucide-react';
-import { Button } from '@componentsNEW/Button';
+import { Button } from '@components/Button';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppStore } from "@core/stores/appStore.js";
@@ -9,7 +9,7 @@ import { useDeviceStore } from "@core/stores/deviceStore.js";
 import { subscribeAll } from "@core/subscriptions.js";
 import { randId } from "@core/utils/randId.js";
 import { BleConnection, Constants } from "@meshtastic/js";
-import Loading from '@app/components/NEW/Loading';
+import Loading from '@components/Loading';
 
 import {
   BatteryMediumIcon,

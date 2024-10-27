@@ -1,6 +1,6 @@
 import { useAppStore } from "@app/core/stores/appStore";
-import { Button } from "@componentsNEW/Button.js";
-import { Input } from "@componentsNEW/Input.js";
+import { Button } from "@components/Button.js";
+import { Input } from "@components/Input.js";
 import { useDevice, useDeviceStore } from "@core/stores/deviceStore.js";
 import type { Types } from "@meshtastic/js";
 import { SendIcon } from "lucide-react";

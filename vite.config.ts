@@ -36,10 +36,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@app": resolve(__dirname, "./src"),
-      "@pagesOLD": resolve(__dirname, "./src/pages/old"),
-      "@pagesNEW": resolve(__dirname, "./src/pages/NEW"),
-      "@componentsOLD": resolve(__dirname, "./src/components/old"),
-      "@componentsNEW": resolve(__dirname, "./src/components/NEW"),
+      "@pages": resolve(__dirname, "./src/pages"),
+      "@components": resolve(__dirname, "./src/components"),
       "@core": resolve(__dirname, "./src/core"),
       "@layouts": resolve(__dirname, "./src/layouts"),
     },

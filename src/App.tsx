@@ -1,11 +1,11 @@
 import { BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components'
-import Header from '@componentsNEW/Header'
-import Tablist from "@componentsNEW/Tablist"
+import Header from '@components/Header'
+import Tablist from "@components/Tablist"
 import Pages from '@core/utils/routes/Pages';
-import { DeviceContext, useDeviceStore } from "@core/stores/deviceStore.js";
+import { useDeviceStore } from "@core/stores/deviceStore.js";
 import { useAppStore } from "@core/stores/appStore.js";
-import Connect from './pages/NEW/Connect';
+import Connect from './pages/Connect';
 
 export default function App() {
   const { getDevice } = useDeviceStore();
@@ -16,18 +16,16 @@ export default function App() {
   return (
     <>
       <BrowserRouter>
-        <DeviceContext.Provider value={device}>
-          {device && <Header/>}
-          <AppContainer>
-            
-            {device 
-              ? <>
-                <Tablist/>
-                <Pages/> </>
-              : <Connect/>
-            }
-          </AppContainer>
-        </DeviceContext.Provider>
+        {device && <Header/>}
+        <AppContainer>
+          
+          {device 
+            ? <>
+              <Tablist/>
+              <Pages/> </>
+            : <Connect/>
+          }
+        </AppContainer>
       </BrowserRouter>
     </>
   )

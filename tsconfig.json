@@ -19,10 +19,8 @@
     "baseUrl": "./",
     "paths": {
       "@app/*": ["./src/*"],
-      "@pagesOLD/*": ["./src/pages/old/*"],
-      "@pagesNEW/*": ["./src/pages/NEW/*"],
-      "@componentsOLD/*": ["./src/components/old/*"],
-      "@componentsNEW/*": ["./src/components/NEW/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@components/*": ["./src/components/*"],
       "@core/*": ["./src/core/*"],
       "@layouts/*": ["./src/layouts/*"]
     },
