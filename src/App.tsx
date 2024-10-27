@@ -5,6 +5,7 @@ import Tablist from "@componentsNEW/Tablist"
 import Pages from '@core/utils/routes/Pages';
 import { DeviceContext, useDeviceStore } from "@core/stores/deviceStore.js";
 import { useAppStore } from "@core/stores/appStore.js";
+import Connect from './pages/NEW/Connect';
 
 export default function App() {
   const { getDevice } = useDeviceStore();
@@ -16,10 +17,15 @@ export default function App() {
     <>
       <BrowserRouter>
         <DeviceContext.Provider value={device}>
-          <Header/>
+          {device && <Header/>}
           <AppContainer>
-            <Tablist/>
-            <Pages/>
+            
+            {device 
+              ? <>
+                <Tablist/>
+                <Pages/> </>
+              : <Connect/>
+            }
           </AppContainer>
         </DeviceContext.Provider>
       </BrowserRouter>

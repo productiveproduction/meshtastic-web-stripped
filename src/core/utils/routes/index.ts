@@ -3,13 +3,13 @@ import { MessageCircle, Users, Star } from 'lucide-react';
 
 export const tablistRoutes = [
   {
-    component: asyncComponentLoader(() => import('@pagesNEW/tabs/Channels')),
+    component: asyncComponentLoader(() => import('@pagesNEW/chats/Channels')),
     path: '/',
     title: 'channels',
     icon: Users
   },
   {
-    component: asyncComponentLoader(() => import('@pagesNEW/tabs/Chats')),
+    component: asyncComponentLoader(() => import('@pagesNEW/chats/Chats')),
     path: '/chats',
     title: 'chats',
     icon: MessageCircle
